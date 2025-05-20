@@ -4,13 +4,13 @@
     <title>UTM 옵션 마스터 목록 (파라미터 활성화 관리)</title>
     <style>
         body { font-family: sans-serif; margin: 20px; font-size: 14px; }
-        .button-container { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; } 
+        .button-container { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; position: relative; width: fit-content; display: inline-block; margin: 0 0 20px 50px; }
         .button-container button { padding: 10px 15px; font-size: 1em; cursor: pointer; background-color: #fb0e69; color: white; border: none; border-radius: 5px; }
         .button-container button:hover { background-color: #f81e72; }
         .button-container button#saveParameterStatusButton { background-color: #007bff; }
         .button-container button#saveParameterStatusButton:hover { background-color: #0056b3; }
     
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
         th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: middle; word-wrap: break-word; }
         th { background-color: #f0f0f0; position: sticky; top: 0; z-index: 1; font-weight: bold; }
     
@@ -81,7 +81,7 @@
         <button onclick="location.href='https://syngchng.github.io/UTM-Form/'">UTM Builder</button>
         <button id="saveParameterStatusButton">옵션 활성 상태 저장</button>
     </div>
-    <h1>UTM 옵션 마스터 목록</h1>
+    <h1 style="display: inline-block;">UTM 옵션 마스터 목록</h1>
     <p id="loadingStatus" style="display: none;">옵션 목록 로딩 중...</p>
     <div id="statusMessage" class="status-message"></div>
     
