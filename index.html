@@ -1,34 +1,92 @@
-<html lang="ko" data-tag-assistant-prod-present="pending:1747722994248"><head>
+<html lang="ko" data-tag-assistant-prod-present="pending:1747722994248">
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UTM 항목 List</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; font-size: 14px; }
-        .button-container { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; position: relative; width: fit-content; display: inline-block; margin: 0 0 20px 50px; }
-        .button-container button { padding: 10px 15px; font-size: 1em; cursor: pointer; background-color: #fb0e69; color: white; border: none; border-radius: 5px; }
-        .button-container button:hover { background-color: #f81e72; }
-        .button-container button#saveParameterStatusButton { background-color: #007bff; }
-        .button-container button#saveParameterStatusButton:hover { background-color: #0056b3; }
-    
-        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: middle; word-wrap: break-word; }
-        th { background-color: #f0f0f0; position: sticky; top: 0; z-index: 1; font-weight: bold; }
-    
-        td > span { margin-right: 8px; vertical-align: middle;}
-    
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            font-size: 14px;
+        }
+
+        .button-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            width: fit-content;
+            display: inline-block;
+            margin: 0 0 20px 50px;
+        }
+
+        .button-container button {
+            padding: 10px 15px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #fb0e69;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .button-container button:hover {
+            background-color: #f81e72;
+        }
+
+        .button-container button#saveParameterStatusButton {
+            background-color: #007bff;
+        }
+
+        .button-container button#saveParameterStatusButton:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            vertical-align: middle;
+            word-wrap: break-word;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            font-weight: bold;
+        }
+
+        td>span {
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
         /* 토글 스위치 CSS */
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 40px; 
-            height: 20px; 
+            width: 40px;
+            height: 20px;
             vertical-align: middle;
         }
+
         .toggle-switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
+
         .slider {
             position: absolute;
             cursor: pointer;
@@ -36,71 +94,476 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #ccc; 
+            background-color: #ccc;
             -webkit-transition: .4s;
             transition: .4s;
         }
+
         .slider:before {
             position: absolute;
             content: "";
-            height: 16px; 
-            width: 16px;  
-            left: 2px;    
-            bottom: 2px;  
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
             background-color: white;
             -webkit-transition: .4s;
             transition: .4s;
         }
-        input:checked + .slider {
-            background-color: #28a745; 
+
+        input:checked+.slider {
+            background-color: #28a745;
         }
-        input:focus + .slider {
+
+        input:focus+.slider {
             box-shadow: 0 0 1px #28a745;
         }
-        input:checked + .slider:before {
-            -webkit-transform: translateX(20px); 
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(20px);
             -ms-transform: translateX(20px);
             transform: translateX(20px);
         }
+
         .slider.round {
-            border-radius: 20px; 
+            border-radius: 20px;
         }
+
         .slider.round:before {
-            border-radius: 50%; 
+            border-radius: 50%;
         }
-    
-        #loadingStatus { font-style: italic; color: #777; margin-bottom: 15px; }
-        #tableContainerWrapper { max-height: 75vh; overflow-y: auto; border: 1px solid #ddd; }
-        .status-message { margin-top: 10px; padding: 10px; border-radius: 4px; display: none; }
-        .status-message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .status-message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        #loadingStatus {
+            font-style: italic;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        #tableContainerWrapper {
+            max-height: 75vh;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+        }
+
+        .status-message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .status-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
     </style>
-    </head>
-    <body data-new-gr-c-s-check-loaded="14.1235.0" data-gr-ext-installed="">
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1235.0" data-gr-ext-installed="">
+    <h1 style="display: inline-block;">UTM 항목 Value List</h1>
     <div class="button-container">
         <button onclick="location.href='https://syngchng.github.io/UTM-Form/'">UTM Builder</button>
+    </div>
+    <div class="button-container">
         <button id="saveParameterStatusButton">Save</button>
     </div>
-    <h1 style="display: inline-block;">UTM 항목 Value List</h1>
     <p id="loadingStatus" style="display: none;">Value List Loading...</p>
     <div id="statusMessage" class="status-message"></div>
-    
+
     <div id="tableContainerWrapper">
-        <div id="optionsTableContainer"><table><thead><tr><th>source</th><th>medium</th><th>utm_campaign_ad_type</th><th>utm_campaign_goal</th><th>utm_campaign_event_type</th><th>utm_campaign_product_category</th><th>utm_campaign_ad_target</th><th>utm_campaign_creative_type</th><th>utm_campaign_device_type</th><th>utm_content_content_action</th></tr></thead><tbody><tr><td><span>newsletter</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>cpc</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>da</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>traffic</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>promotion</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>fashion</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>non</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>img</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>mo</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>click</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td></tr><tr><td><span>google</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>display</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>sa</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>conv</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>pre</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>electronic</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>f</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>video</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>pc</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>download</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td></tr><tr><td><span>gdn</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>paid_social</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>reach</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>season</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>beauty</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>m</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>banner</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>app</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>purchase</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td></tr><tr><td><span>youtube</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>email</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>view</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>flash</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>car</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>int</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>infographic</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>signup</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td></tr><tr><td><span>facebook</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>affiliate</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>tcpa</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>inven</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>home</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>re</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>slider</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>register</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td></tr><tr><td><span>instagram</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>video</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>click</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>anni</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>sports</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>lal</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>interactive</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>submit</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td></tr><tr><td><span>naver</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>social</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>cpm</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>vip</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>food</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>kw</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>audio</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>view</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td></tr><tr><td><span>kakao</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>sms</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>branding</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>new</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>books</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>cus</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>ani</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>share</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td></tr><tr><td><span>bing</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>app_push</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>purchase</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>holiday</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>game</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>pay</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td></tr><tr><td><span>yahoo</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>web_push</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td><span>appinstall</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>bundle</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>office</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td><span>rival</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td></tr><tr><td><span>karrot</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td><td></td><td></td><td><span>repres</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td></tr><tr><td><span>criteo</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td><td></td><td></td><td><span>brand</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td></tr><tr><td><span>tiktok</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td><td></td><td></td><td><span>model</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td></tr><tr><td><span>twitter</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td><td></td><td></td><td><span>normal</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td></tr><tr><td><span>pinterest</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td><td></td><td></td><td><span>rival</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td></tr><tr><td><span>linkedin</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td><td></td><td></td><td><span>shopping</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td></tr><tr><td><span>taboola</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td><td></td><td></td><td><span>core</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td></tr><tr><td><span>mobon</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td><td></td><td></td><td><span>prod</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td></tr><tr><td><span>tistory</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td><span>toss</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td><span>internal</span><label class="toggle-switch"><input type="checkbox"><span class="slider round"></span></label></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+        <div id="optionsTableContainer">
+            <table>
+                <thead>
+                    <tr>
+                        <th>source</th>
+                        <th>medium</th>
+                        <th>utm_campaign_ad_type</th>
+                        <th>utm_campaign_goal</th>
+                        <th>utm_campaign_event_type</th>
+                        <th>utm_campaign_product_category</th>
+                        <th>utm_campaign_ad_target</th>
+                        <th>utm_campaign_creative_type</th>
+                        <th>utm_campaign_device_type</th>
+                        <th>utm_content_content_action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span>newsletter</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>cpc</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>da</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>traffic</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>promotion</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>fashion</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>non</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>img</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>mo</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>click</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td><span>google</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>display</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>sa</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>conv</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>pre</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>electronic</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>f</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>video</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>pc</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>download</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td><span>gdn</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>paid_social</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>reach</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>season</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>beauty</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>m</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>banner</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>app</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>purchase</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td><span>youtube</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>email</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>view</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>flash</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>car</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>int</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>infographic</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>signup</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td><span>facebook</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>affiliate</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>tcpa</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>inven</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>home</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>re</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>slider</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>register</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td><span>instagram</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>video</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>click</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>anni</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>sports</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>lal</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>interactive</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>submit</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td><span>naver</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>social</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>cpm</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>vip</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>food</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>kw</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>audio</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>view</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td><span>kakao</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>sms</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>branding</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>new</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>books</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>cus</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>ani</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>share</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                    </tr>
+                    <tr>
+                        <td><span>bing</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>app_push</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>purchase</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>holiday</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>game</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>pay</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>yahoo</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>web_push</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td><span>appinstall</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>bundle</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>office</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td><span>rival</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>karrot</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span>repres</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>criteo</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span>brand</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>tiktok</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span>model</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>twitter</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span>normal</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>pinterest</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span>rival</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>linkedin</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span>shopping</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>taboola</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span>core</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>mobon</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><span>prod</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>tistory</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>toss</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><span>internal</span><label class="toggle-switch"><input type="checkbox"><span
+                                    class="slider round"></span></label></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    
+
     <script>
         const MASTER_OPTIONS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShcppno7HuVQbjoQzbaBMEvoBGt6atss9FI_-F3qSh_pzgtxw7A4NPo6Y2EYoll2y5_8wMt08X_oV0/pub?gid=1593192047&single=true&output=csv';
         const N8N_WEBHOOK_URL_FOR_STATUS_UPDATE = 'https://entrench-consulting.app.n8n.cloud/webhook-test/status-update';
-    
-        const elementStates = new Map(); 
-        const elementCheckboxes = new Map(); 
-    
+
+        const elementStates = new Map();
+        const elementCheckboxes = new Map();
+
         document.addEventListener('DOMContentLoaded', async () => {
             const loadingStatusEl = document.getElementById('loadingStatus');
             const tableContainerEl = document.getElementById('optionsTableContainer');
             const saveButton = document.getElementById('saveParameterStatusButton');
-    
+
             if (!MASTER_OPTIONS_CSV_URL || MASTER_OPTIONS_CSV_URL.startsWith('여기에_')) {
                 loadingStatusEl.textContent = "오류: 구글 시트 CSV URL이 설정되지 않았습니다.";
                 loadingStatusEl.style.color = "red";
@@ -110,27 +573,27 @@
             if (!N8N_WEBHOOK_URL_FOR_STATUS_UPDATE || N8N_WEBHOOK_URL_FOR_STATUS_UPDATE.startsWith('여기에_')) {
                 console.warn("N8N 웹훅 URL이 설정되지 않았습니다. '저장' 기능이 정상 동작하지 않을 수 있습니다.");
             }
-            
+
             saveButton.addEventListener('click', handleSaveParameterStatus);
-    
+
             try {
                 loadingStatusEl.textContent = "옵션 목록 로딩 중...";
-                const response = await fetch(MASTER_OPTIONS_CSV_URL, { cache: 'no-cache' }); 
+                const response = await fetch(MASTER_OPTIONS_CSV_URL, { cache: 'no-cache' });
                 if (!response.ok) throw new Error(`마스터 옵션 CSV 로드 실패 (상태 코드: ${response.status})`);
-                const csvDataText = await response.text(); 
+                const csvDataText = await response.text();
                 if (!csvDataText.trim()) {
                     loadingStatusEl.textContent = "옵션 데이터가 비어있거나 가져올 수 없습니다.";
                     tableContainerEl.innerHTML = '<p>표시할 옵션 데이터가 없습니다.</p>';
                     return;
                 }
-                
-                const tableElement = createOrganizedTableFromCsv(csvDataText, ['type']); 
-                
-                tableContainerEl.innerHTML = ''; 
-                tableContainerEl.appendChild(tableElement); 
-                
-                loadingStatusEl.style.display = 'none'; 
-    
+
+                const tableElement = createOrganizedTableFromCsv(csvDataText, ['type']);
+
+                tableContainerEl.innerHTML = '';
+                tableContainerEl.appendChild(tableElement);
+
+                loadingStatusEl.style.display = 'none';
+
             } catch (error) {
                 console.error("마스터 옵션 로딩 또는 표시 오류:", error);
                 loadingStatusEl.textContent = `오류: ${error.message}`;
@@ -138,7 +601,7 @@
                 tableContainerEl.innerHTML = '<p>옵션 목록을 불러오는 데 실패했습니다.</p>';
             }
         });
-    
+
         function displayStatusMessage(message, isSuccess) {
             const statusMessageEl = document.getElementById('statusMessage');
             statusMessageEl.textContent = message;
@@ -146,26 +609,26 @@
             statusMessageEl.style.display = 'block';
             setTimeout(() => { statusMessageEl.style.display = 'none'; }, 5000);
         }
-        
+
         async function handleSaveParameterStatus() {
             const loadingStatusEl = document.getElementById('loadingStatus');
             const saveButton = document.getElementById('saveParameterStatusButton');
             saveButton.disabled = true;
             loadingStatusEl.textContent = "옵션 상태 저장 중...";
             loadingStatusEl.style.display = 'block';
-    
+
             const statusPayload = {
                 active_options: {},
                 inactive_options: {}
             };
-    
+
             elementStates.forEach((isChecked, uniqueKey) => { // uniqueKey는 "columnName::optionValue"
                 const parts = uniqueKey.split('::');
                 if (parts.length === 2) {
                     const columnName = parts[0];      // 예: "source"
                     const optionValue = parts[1];     // 예: "google"
                     const statusColumnKey = `${columnName}_is_active`; // 예: "source_is_active"
-    
+
                     if (isChecked) {
                         if (!statusPayload.active_options[statusColumnKey]) {
                             statusPayload.active_options[statusColumnKey] = [];
@@ -179,10 +642,10 @@
                     }
                 }
             });
-    
+
             console.log("Sending NEW grouped (by status column) element statuses to n8n:", statusPayload);
-    
-            if (elementStates.size === 0) { 
+
+            if (elementStates.size === 0) {
                 displayStatusMessage("저장할 옵션 상태가 없습니다 (관리 대상 요소 없음).", false);
                 loadingStatusEl.style.display = 'none';
                 saveButton.disabled = false;
@@ -192,107 +655,107 @@
             if (Object.keys(statusPayload.active_options).length === 0 && Object.keys(statusPayload.inactive_options).length === 0 && elementStates.size > 0) {
                 console.warn("Warning: elementStates has items, but payload groups are empty. Check logic if this is unexpected.");
             }
-    
-    
+
+
             if (!N8N_WEBHOOK_URL_FOR_STATUS_UPDATE || N8N_WEBHOOK_URL_FOR_STATUS_UPDATE.startsWith('여기에_')) {
                 displayStatusMessage("오류: N8N 웹훅 URL이 설정되지 않아 저장할 수 없습니다.", false);
                 loadingStatusEl.style.display = 'none';
                 saveButton.disabled = false;
                 return;
             }
-    
+
             try {
                 const response = await fetch(N8N_WEBHOOK_URL_FOR_STATUS_UPDATE, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(statusPayload)
                 });
-    
-                if (!response.ok) { 
-                    const errorText = await response.text(); 
-                    console.error("n8n response errorText:", errorText); 
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("n8n response errorText:", errorText);
                     throw new Error(`n8n 저장 요청 실패 (${response.status}): ${errorText || '알 수 없는 n8n 오류'}`);
                 }
-                const result = await response.json().catch(() => ({})); 
+                const result = await response.json().catch(() => ({}));
                 console.log("n8n success response:", result);
                 displayStatusMessage("옵션 활성 상태가 n8n으로 전송되었습니다.", true);
-    
-            } catch (error) { 
+
+            } catch (error) {
                 console.error("Error saving element status to n8n:", error);
-                displayStatusMessage(error.message, false); 
+                displayStatusMessage(error.message, false);
             } finally {
                 loadingStatusEl.style.display = 'none';
                 saveButton.disabled = false;
             }
         }
-    
+
         function createOrganizedTableFromCsv(csvDataText, headersToHide = []) {
             const lines = csvDataText.split(/\r?\n/).filter(line => line.trim() !== "");
             const table = document.createElement('table');
-    
+
             if (lines.length === 0) {
                 table.innerHTML = '<tr><td>표시할 데이터가 없습니다 (CSV 비어있음).</td></tr>';
                 return table;
             }
-    
+
             const allCsvHeaders = lines[0].split(',').map(header => header.trim().replace(/^"|"$/g, ''));
             const csvDataRows = lines.slice(2);
-            
-            const originalHeaderIndexMap = new Map(); 
+
+            const originalHeaderIndexMap = new Map();
             allCsvHeaders.forEach((header, index) => originalHeaderIndexMap.set(header, index));
-    
+
             const lowerCaseHeadersToHide = headersToHide.map(h => h.toLowerCase());
-            
+
             const displayHeaders = [];
             allCsvHeaders.forEach((headerName) => {
                 const lowercasedHeader = headerName.toLowerCase();
                 if (lowerCaseHeadersToHide.includes(lowercasedHeader)) {
                     console.log(`[CSV Header Check] Hiding Column: Original='${headerName}', Lowercased='${lowercasedHeader}', Matched in Hide list: ${JSON.stringify(lowerCaseHeadersToHide)}`);
                 }
-    
-                if (headerName.endsWith('_is_active')) return; 
-                if (lowerCaseHeadersToHide.includes(lowercasedHeader)) return; 
+
+                if (headerName.endsWith('_is_active')) return;
+                if (lowerCaseHeadersToHide.includes(lowercasedHeader)) return;
                 displayHeaders.push(headerName);
             });
-            
+
             // console.log("[Debug] Final Display Headers:", JSON.stringify(displayHeaders)); 
             // console.log("[Debug] Initializing elementStates. Number of CSV Data Rows:", csvDataRows.length, "Number of Display Headers:", displayHeaders.length);
-    
+
             elementStates.clear();
             elementCheckboxes.clear();
-    
+
             if (csvDataRows.length > 0 && displayHeaders.length > 0) {
-                csvDataRows.forEach((dataLine, rowIndex) => { 
+                csvDataRows.forEach((dataLine, rowIndex) => {
                     const currentDataCells = dataLine.split(',').map(cell => cell.trim().replace(/^"|"$/g, ''));
-                    displayHeaders.forEach(valueColumnName => { 
+                    displayHeaders.forEach(valueColumnName => {
                         const valueColIndex = originalHeaderIndexMap.get(valueColumnName);
-                        const cellValue = (valueColIndex !== undefined && currentDataCells.length > valueColIndex) 
-                                        ? currentDataCells[valueColIndex] 
-                                        : "";
-                        
-                        if (cellValue && cellValue.trim() !== '' && cellValue.toLowerCase() !== 'undefined') { 
+                        const cellValue = (valueColIndex !== undefined && currentDataCells.length > valueColIndex)
+                            ? currentDataCells[valueColIndex]
+                            : "";
+
+                        if (cellValue && cellValue.trim() !== '' && cellValue.toLowerCase() !== 'undefined') {
                             const uniqueKey = `${valueColumnName}::${cellValue}`;
-                            let isActiveForRow = false; 
+                            let isActiveForRow = false;
                             const statusColumnNameForThisValue = `${valueColumnName}_is_active`;
                             const statusColIndex = originalHeaderIndexMap.get(statusColumnNameForThisValue);
                             let statusValueFromCell = "[Status Col Not Found or Out of Bounds]";
-    
+
                             if (statusColIndex !== undefined && currentDataCells.length > statusColIndex) {
                                 statusValueFromCell = currentDataCells[statusColIndex];
                                 if (statusValueFromCell.toUpperCase() === 'Y') {
                                     isActiveForRow = true;
                                 }
                             }
-                            
+
                             // if (uniqueKey.includes("some_specific_key_to_debug")) { 
                             //     console.log(`[State Init Details] Row ${rowIndex+1}, Key: ${uniqueKey}, CSV Status Col: '${statusColumnNameForThisValue}', Raw Status in CSV: '${statusValueFromCell}', isActiveForRow: ${isActiveForRow}, Current Map State for Key (before this row): ${elementStates.get(uniqueKey)}`);
                             // }
-                            
+
                             if (elementStates.has(uniqueKey)) {
-                                if (isActiveForRow && !elementStates.get(uniqueKey)) { 
+                                if (isActiveForRow && !elementStates.get(uniqueKey)) {
                                     elementStates.set(uniqueKey, true);
                                 }
-                            } else { 
+                            } else {
                                 elementStates.set(uniqueKey, isActiveForRow);
                             }
                         }
@@ -300,80 +763,80 @@
                 });
             }
             // console.log("[Debug] Final elementStates populated:", elementStates.size > 0 ? elementStates : "Map is empty. (Size: " + elementStates.size + ")");
-            
+
             const thead = table.createTHead();
             const headerRow = thead.insertRow();
             displayHeaders.forEach(headerText => {
                 const th = document.createElement('th');
-                th.textContent = headerText; 
+                th.textContent = headerText;
                 headerRow.appendChild(th);
             });
-            
+
             const tbody = table.createTBody();
             if (csvDataRows.length === 0 && displayHeaders.length > 0) {
-                 const tr = tbody.insertRow();
-                 const td = tr.insertCell();
-                 td.colSpan = displayHeaders.length || 1;
-                 td.textContent = "표시할 데이터 행이 없습니다."; 
-                 td.style.textAlign = "center";
+                const tr = tbody.insertRow();
+                const td = tr.insertCell();
+                td.colSpan = displayHeaders.length || 1;
+                td.textContent = "표시할 데이터 행이 없습니다.";
+                td.style.textAlign = "center";
             } else if (displayHeaders.length === 0) {
                 const tr = tbody.insertRow();
                 const td = tr.insertCell();
                 td.textContent = "표시할 컬럼이 없습니다.";
                 return table;
             }
-    
+
             csvDataRows.forEach(dataLine => {
                 const tr = tbody.insertRow();
                 const currentDataCells = dataLine.split(',').map(cell => cell.trim().replace(/^"|"$/g, ''));
-    
-                displayHeaders.forEach(headerText => { 
+
+                displayHeaders.forEach(headerText => {
                     const td = tr.insertCell();
-                    td.innerHTML = ''; 
+                    td.innerHTML = '';
                     const originalColIndex = originalHeaderIndexMap.get(headerText);
                     let cellValue = "";
                     if (originalColIndex !== undefined && currentDataCells.length > originalColIndex) {
-                         cellValue = String(currentDataCells[originalColIndex]).trim();
+                        cellValue = String(currentDataCells[originalColIndex]).trim();
                     }
-    
-                    if (!cellValue || cellValue.trim() === '' || cellValue.toLowerCase() === 'undefined') { 
+
+                    if (!cellValue || cellValue.trim() === '' || cellValue.toLowerCase() === 'undefined') {
                         // 빈 셀
                     } else {
                         const textSpan = document.createElement('span');
                         textSpan.textContent = cellValue;
                         td.appendChild(textSpan);
-    
-                        const uniqueKey = `${headerText}::${cellValue}`; 
-    
-                        if (elementStates.has(uniqueKey)) { 
+
+                        const uniqueKey = `${headerText}::${cellValue}`;
+
+                        if (elementStates.has(uniqueKey)) {
                             const toggleLabel = document.createElement('label');
                             toggleLabel.className = 'toggle-switch';
-    
+
                             const hiddenCheckbox = document.createElement('input');
                             hiddenCheckbox.type = 'checkbox';
                             const initialStateForKey = elementStates.get(uniqueKey);
-                            hiddenCheckbox.checked = initialStateForKey || false; 
-                            
+                            hiddenCheckbox.checked = initialStateForKey || false;
+
                             const sliderSpan = document.createElement('span');
                             sliderSpan.className = 'slider round';
-    
+
                             toggleLabel.appendChild(hiddenCheckbox);
                             toggleLabel.appendChild(sliderSpan);
                             td.appendChild(toggleLabel);
-    
+
                             if (!elementCheckboxes.has(uniqueKey)) {
                                 elementCheckboxes.set(uniqueKey, new Set());
                             }
                             elementCheckboxes.get(uniqueKey).add(hiddenCheckbox);
-    
+
                             hiddenCheckbox.addEventListener('change', () => {
                                 const newState = hiddenCheckbox.checked;
-                                elementStates.set(uniqueKey, newState); 
-    
+                                elementStates.set(uniqueKey, newState);
+
                                 const checkboxesToSync = elementCheckboxes.get(uniqueKey);
                                 if (checkboxesToSync) {
                                     checkboxesToSync.forEach(cb => {
-                                        if (cb !== hiddenCheckbox) { 
+                                        if (cb !== hiddenCheckbox) {
                                             cb.checked = newState;
                                         }
                                     });
@@ -387,5 +850,6 @@
         }
     </script>
 
-    </body>
+</body>
+
 </html>
